@@ -1,0 +1,163 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#eef2ff,#f8fafc);
+  min-height:100vh;
+}
+
+.app{
+  width:min(900px,92%);
+  margin:40px auto;
+  background:white;
+  border-radius:22px;
+  padding:35px;
+  box-shadow:0 20px 45px rgba(0,0,0,.12);
+}
+
+h1{
+  text-align:center;
+  margin-bottom:30px;
+  color:#222;
+  font-size:2.2rem;
+}
+
+.mode-buttons{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.mode-buttons button{
+  /* border:55px; */
+  border-color: black;
+  padding:12px 28px;
+  border-radius:12px;
+  background:#ececec;
+  cursor:pointer;
+  font-size:16px;
+  transition:.3s;
+}
+
+.mode-buttons button:hover{
+  transform:translateY(-2px);
+}
+
+.mode-buttons button.active{
+  background:#4f46e5;
+  color:white;
+}
+
+textarea,
+input[type="text"]{
+  width:100%;
+  padding:18px;
+  border-radius:14px;
+  border:1px solid #ddd;
+  outline:none;
+  font-size:16px;
+  margin-bottom:20px;
+  transition:.3s;
+}
+
+textarea{
+  resize:vertical;
+}
+
+textarea:focus,
+input:focus{
+  border-color:#4f46e5;
+  box-shadow:0 0 12px rgba(79,70,229,.15);
+}
+
+input[type="file"]{
+  width:100%;
+  padding:15px;
+  border:2px dashed #4f46e5;
+  border-radius:14px;
+  margin-bottom:20px;
+  cursor:pointer;
+}
+
+button{
+  width:100%;
+  border:50px;
+  border-color: black;
+  background:#4f46e5;
+  color:black;
+  padding:16px;
+  font-size:17px;
+  border-radius:15px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  background:#4338ca;
+  transform:translateY(-2px);
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.summary{
+  margin-top:35px;
+  background:#f8faff;
+  border-left:6px solid #4f46e5;
+  padding:25px;
+  border-radius:16px;
+  line-height:1.8;
+}
+
+.summary h2{
+  margin-bottom:15px;
+  color:#222;
+}
+
+.summary h1,
+.summary h2,
+.summary h3{
+  margin:18px 0 12px;
+}
+
+.summary p{
+  margin-bottom:12px;
+}
+
+.summary ul{
+  margin-left:22px;
+  margin-bottom:15px;
+}
+
+.summary code{
+  background:#eef2ff;
+  padding:2px 6px;
+  border-radius:5px;
+}
+
+@media(max-width:700px){
+
+.app{
+padding:20px;
+}
+
+.mode-buttons{
+flex-direction:column;
+}
+
+.mode-buttons button{
+width:100%;
+}
+
+h1{
+font-size:1.7rem;
+}
+
+}
