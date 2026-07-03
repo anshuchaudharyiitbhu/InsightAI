@@ -34,7 +34,7 @@ h1{
 }
 
 .mode-buttons button{
-  /* border:55px; */
+  border:55px;
   border-color: black;
   padding:12px 28px;
   border-radius:12px;

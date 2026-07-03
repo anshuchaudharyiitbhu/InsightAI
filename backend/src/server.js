@@ -9,15 +9,16 @@ import yt_route from "./Router/yt_route.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    methods: ["GET", "POST"],
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL || "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   })
+// );
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 
 app.use("/summarize", text_route);
 app.use("/summarize", pdf_route);

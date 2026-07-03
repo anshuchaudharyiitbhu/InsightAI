@@ -1,25 +1,34 @@
 import express from "express";
 import upload from "../middleware/upload.js";
-import pdf from "pdf-parse";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import client from "../utils/groq.js";
 
 const pdf_route = express.Router();
 
-pdf_route.post(
-    "/pdf",
-    upload.single("file"),
-    async (req, res) => {
-        try {
+pdf_route.post("/pdf", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please upload a PDF.",
+      });
+    }
 
-            if (!req.file) {
-                return res.status(400).json({
-                    message: "Please upload a PDF."
-                });
-            }
+    const loadingTask = pdfjsLib.getDocument({
+      data: new Uint8Array(req.file.buffer),
+    });
 
-            const data = await pdf(req.file.buffer);
+    const pdf = await loadingTask.promise;
 
-            const prompt = `
+    let text = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+
+      text += content.items.map((item) => item.str).join(" ") + "\n";
+    }
+
+    const prompt = `
 You are an expert AI assistant.
 
 Summarize the following PDF.
@@ -32,41 +41,30 @@ Rules:
 
 PDF:
 
-${data.text}
+${text}
 `;
 
-            const completion =
-                await client.chat.completions.create({
+    const completion = await client.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 0.3,
+    });
 
-                    model: "llama-3.3-70b-versatile",
+    res.json({
+      summary: completion.choices[0].message.content,
+    });
+  } catch (error) {
+    console.error(error);
 
-                    messages: [
-                        {
-                            role: "user",
-                            content: prompt,
-                        },
-                    ],
-
-                    temperature: 0.3,
-                });
-
-            const summary =
-                completion.choices[0].message.content;
-
-            res.json({
-                summary,
-            });
-
-        } catch (error) {
-
-            console.log(error);
-
-            res.status(500).json({
-                message: error.message,
-            });
-
-        }
-    }
-);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
 
 export default pdf_route;
