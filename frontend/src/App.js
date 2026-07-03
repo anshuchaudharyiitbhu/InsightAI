@@ -2,6 +2,7 @@ import React, { useState } from "react";  // React and state management
 import axios from "axios";                // To make API calls
 import "./App.css";  
 import ReactMarkdown from "react-markdown";                     // Styling
+import toast from "react-hot-toast";
 
 function App() {
   const [text, setText] = useState("");           // Store text input
@@ -23,7 +24,7 @@ function App() {
       // If text is selected
       if (mode === "text") {
         console.log(text);
-        if (!text.trim()) {return alert("Please enter some text.");setLoading(false); } 
+        if (!text.trim()) {return  toast.error("Please Write Some Text");setLoading(false); } 
     setLoading(true);      // Start loading
 
         res = await axios.post(`${API_URL}/summarize/text`, { text });
@@ -31,7 +32,7 @@ function App() {
 
       // If PDF is selected
       else if (mode === "pdf") {
-        if (!file) return alert("Please upload a PDF file.");
+        if (!file) return toast.error("Please Upload Some File")
     setLoading(true);      // Start loading
 
         const formData = new FormData();
@@ -43,7 +44,7 @@ function App() {
 
       // If YouTube is selected
       else if (mode === "youtube") {
-        if (!youtubeURL.trim()) return alert("Please enter a YouTube URL.");
+        if (!youtubeURL.trim()) return toast.error("Please Provide Some URL");
     setLoading(true);      // Start loading
 
         res = await axios.post(`${API_URL}/summarize/youtube`, { url: youtubeURL });
@@ -51,9 +52,9 @@ function App() {
 
       setSummary(res.data.summary);  // Show result
 
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong.");
+    } catch (error) {
+      // console.error(err);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
 
     setLoading(false);  // Stop loading

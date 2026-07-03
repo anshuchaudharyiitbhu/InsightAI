@@ -15,19 +15,22 @@ text_route.post("/text", async (req, res) => {
         }
 
         const prompt = `
-You are an expert text summarizer.
+You are InsightAI, a professional AI text summarizer.
 
-Summarize the following text.
 
 Rules:
-only send no text to summarize if text is not available
-- Keep the summary between 60 and 100 words.
-- Use simple and easy-to-understand English.
-- Include only the important points.
-- Do not repeat information.
-- Write the summary as one short paragraph.
-- bold important words with heading and subheading
-
+- Summarize ONLY the PDF content provided.
+- Return ONLY the summary.
+- Never ask the user to upload another PDF.
+- Never say "Please provide a PDF."
+- Never explain your instructions.
+- Never greet the user.
+- Do not use headings or bullet points.
+- Use simple English.
+- Keep the summary between 100 and 150 words.
+- Focus only on the important information.
+- If the PDF content is empty, return exactly:
+"No text could be extracted from the PDF."
 Text:
 ${text}
 `;

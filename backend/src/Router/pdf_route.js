@@ -4,7 +4,7 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { createCanvas } from "canvas";
 import Tesseract from "tesseract.js";
 import client from "../utils/groq.js";
-
+import toast from "react-hot-toast";
 const pdf_route = express.Router();
 
 // If average extracted chars per page is below this, treat it as scanned
@@ -104,7 +104,7 @@ ${finalText}
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: error.message });
+         toast.error(error.response?.data?.message || "Something went wrong");
     }
 });
 

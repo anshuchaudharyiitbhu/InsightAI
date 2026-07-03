@@ -1,6 +1,7 @@
 import express from "express";
 import { Innertube } from "youtubei.js";
 import client from "../utils/groq.js";
+import toast from "react-hot-toast";
 
 const yt_route = express.Router();
 
@@ -118,6 +119,8 @@ Rules:
 
     } catch (error) {
         console.error("YouTube route error:", error);
+        toast.error(error.response?.data?.message || "Something went wrong");
+        
 
         // Give the caller a useful error instead of a generic 500
         if (error.message?.includes("Transcript") || error.message?.includes("transcript")) {
