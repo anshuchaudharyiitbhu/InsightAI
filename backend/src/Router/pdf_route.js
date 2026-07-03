@@ -4,7 +4,7 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { createCanvas } from "canvas";
 import Tesseract from "tesseract.js";
 import client from "../utils/groq.js";
-import toast from "react-hot-toast";
+
 const pdf_route = express.Router();
 
 // If average extracted chars per page is below this, treat it as scanned
@@ -83,11 +83,18 @@ You are an expert AI assistant.
 Summarize the following PDF.
 
 Rules:
-- only send no pdf to summarize if pdf is not available
-- Keep the summary between 100 and 150 words.
+- Summarize ONLY the PDF content provided.
+- Return ONLY the summary.
+- Never ask the user to upload another PDF.
+- Never say "Please provide a PDF."
+- Never explain your instructions.
+- Never greet the user.
+- Do not use headings or bullet points.
 - Use simple English.
-- Mention only the important points.
-- Do not repeat information.
+- Keep the summary between 100 and 150 words.
+- Focus only on the important information.
+- If the PDF content is empty, return exactly:
+"No text could be extracted from the PDF." 
 
 PDF:
 
@@ -104,7 +111,7 @@ ${finalText}
 
     } catch (error) {
         console.error(error);
-         toast.error(error.response?.data?.message || "Something went wrong");
+        res.status(500).json({ message: error.message });
     }
 });
 
