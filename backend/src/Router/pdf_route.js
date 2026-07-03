@@ -83,6 +83,7 @@ You are an expert AI assistant.
 Summarize the following PDF.
 
 Rules:
+- only send no pdf to summarize if pdf is not available
 - Keep the summary between 100 and 150 words.
 - Use simple English.
 - Mention only the important points.

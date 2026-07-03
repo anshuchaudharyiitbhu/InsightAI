@@ -20,6 +20,7 @@ You are an expert text summarizer.
 Summarize the following text.
 
 Rules:
+only send no text to summarize if text is not available
 - Keep the summary between 60 and 100 words.
 - Use simple and easy-to-understand English.
 - Include only the important points.
